@@ -234,11 +234,11 @@ class SupySilcClient(silc.SilcClient):
         for user in users:
             currnick=self.get_nickmask(user)
             if len(namesanswer)+len(currnick)<511:
-                namesanswer+=" "+currnick
+                namesanswer+=currnick+" "
             else:
-                print namesanswer
+                print namesanswer.strip()
                 namesanswer=":scis 353 %s = %s :" % (thread.c.nickname, channel)
-        print namesanswer
+        print namesanswer.strip()
         print ":scis 366 %s %s :End of /NAMES list." % (thread.c.nickname, channel)
 
 
@@ -310,12 +310,17 @@ def jomat(linea,line):
     print "jomat!"+(" ".join(linea[1:]))
     thread.c.command_call(" ".join(linea[1:]))
 
+def get_users(linea,line):
+    thread.c.command_call("USERS "+linea[1])
+
 commands = {"PRIVMSG":privmsg,
     "SERVER":set_server,
     "NICK":set_nick,
     "USER":set_user,
     "QUIT":quit,
     "MODE":ignore_cmd, # irssi wants to set the mode, just ignore it <- TODO
+    "WHO":get_users,
+    "NAMES":get_users,
     "JOMAT":jomat
 }
 
