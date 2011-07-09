@@ -17,3 +17,11 @@ To install it to xinet.d, copy the files somewhere and configure them to
 your needs:
 sudo cp xinetd.conf /etc/xinetd.d/scis
 sudo cp scis.py /usr/local/bin/
+
+Hints:
+* You need python-silc, on debian: sudo apt-get install python-silc
+* This isn't secure at all.
+* The above description is how it should be. Reality can be different.
+
+Todo:
+* The keys are regenerated every time.... perhaps the user wants to set them somehow
