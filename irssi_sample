@@ -1,0 +1,21 @@
+servers = (
+  {
+    address = "localhost";
+    chatnet = "SILC";
+    port = "7067";
+    autoconnect = "yes";
+  }
+);
+
+chatnets = {
+  SILC = {
+    type = "IRC";
+    autosendcmd = "/^quote SERVER silc.blarzwurst.de 706";
+  };
+};
+
+settings = {
+  core = { real_name = ""; user_name = "yournick"; nick = "yournick"; };
+  "fe-text" = { actlist_sort = "refnum"; };
+};
+

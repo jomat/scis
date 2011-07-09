@@ -1,0 +1,2 @@
+sudo cp xinetd.conf /etc/xinetd.d/scis
+sudo cp scis.py /usr/local/bin/
