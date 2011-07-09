@@ -6,6 +6,7 @@ import pwd
 import socket
 import time
 import threading
+import tempfile
 
 class SupySilcClient(silc.SilcClient):
     servername = ""
@@ -17,7 +18,7 @@ class SupySilcClient(silc.SilcClient):
         return u''.join(hex(ord(c)).replace('0x', '').zfill(2) for c in string)
 
     def __init__(self):
-        keybase = '/tmp/silckey'
+        keybase = tempfile.mkstemp("sciskey")[1]
         pubkey = keybase + '.pub'
         privkey = keybase + '.prv'
         self.keys = None
