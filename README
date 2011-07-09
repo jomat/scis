@@ -1,2 +1,19 @@
+This is a piece of python based on some pysilc sample.
+The idea behind it is to create a silc command line client.
+The commands are reminiscent of them defined in RFC1459,
+but there is one additional command:
+SERVER silchost [silcport (default: 706)]
+This command sets the silc server to connect to.
+
+Now you can hook the script to your inetd-superserver
+(I use xinetd, so I also created a sample for it) and fire your favourite
+irc client to it.
+Yes, IRC client, not irc client with some patched silc support. All your
+client has to do is to send the SERVER command somehow and you will be
+proxied to your favourite silc net.
+Look at irssi_sample how it works.
+
+To install it to xinet.d, copy the files somewhere and configure them to
+your needs:
 sudo cp xinetd.conf /etc/xinetd.d/scis
 sudo cp scis.py /usr/local/bin/
