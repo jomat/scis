@@ -80,9 +80,9 @@ class SupySilcClient(silc.SilcClient):
         self._cache_user(sender)
 
     def private_message(self, sender, flags, msg):
-        print 'SILC: Private Message: [%s] %s' % (sender, msg)
         self._cache_user(sender)
-        self.send_private_message(sender, 'Wow, I never knew %s' % msg)
+        print ':%s!%s@%s PRIVMSG %s :%s' % (self.get_nickmask(sender), sender.username, sender.hostname, self.nickname, msg)
+        #self.send_private_message(sender, 'Wow, I never knew %s' % msg)
 
     def notify_none(self, msg):
         print ':scis NOTICE %s :%s' % (thread.c.nickname, msg)
