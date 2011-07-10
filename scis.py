@@ -36,7 +36,12 @@ class SupySilcClient(silc.SilcClient):
         silc.SilcClient.__init__(self, keys = self.keys, nickname=self.nickname, username=self.username)
       
     def get_nickmask(self, user):
-         return self.users[user.fingerprint][0]
+        return self.users[user.fingerprint][0]
+
+    def get_user_by_nickmask(self,mask):   #TODO: my stomach hurts seeing this :-(
+        for fp in self.users:
+            if mask==self.users[fp][0]:
+                return self.users[fp][1]
 
     def _cache_user(self, user):
         mask = user.nickname;
@@ -82,7 +87,6 @@ class SupySilcClient(silc.SilcClient):
     def private_message(self, sender, flags, msg):
         self._cache_user(sender)
         print ':%s!%s@%s PRIVMSG %s :%s' % (self.get_nickmask(sender), sender.username, sender.hostname, self.nickname, msg)
-        #self.send_private_message(sender, 'Wow, I never knew %s' % msg)
 
     def notify_none(self, msg):
         print ':scis NOTICE %s :%s' % (thread.c.nickname, msg)
@@ -265,11 +269,13 @@ class SILCThread(threading.Thread):
             pass
 
 def privmsg(linea,line):
-    if linea[1] in thread.c.channels:
-        if ':'==linea[2][0]:
-            linea[2]=linea[2][1:]
+    if ':'==linea[2][0]:
+        linea[2]=linea[2][1:]
+    # TODO: silc channels don't need the #. So I should strip it off...
+    if '#'==linea[1][0] and linea[1] in thread.c.channels:
         thread.c.send_channel_message(thread.c.channels[linea[1]], " ".join(linea[2:]))
-    #thread.c.command_call(line.strip())
+    else:
+        thread.c.send_private_message(thread.c.get_user_by_nickmask(linea[1]), " ".join(linea[2:]))
 
 def try_to_connect():
     if thread.c.servername and thread.c.username and thread.c.nickname:
